@@ -437,6 +437,12 @@ class Mailbox {
 				$mail->replyTo[strtolower($replyTo->mailbox . '@' . $replyTo->host)] = isset($replyTo->personal) ? $this->decodeMimeStr($replyTo->personal, $this->serverEncoding) : null;
 			}
 		}
+        if (isset($head->in_reply_to)) {
+            $mail->inReplyTo = $head->in_reply_to;
+        }
+        if (isset($head->references)) {
+            $mail->references = $this->decodeMessageIdList($head->references);
+        }
 
 		$mailStructure = imap_fetchstructure($this->getImapStream(), $mailId, FT_UID);
 
@@ -577,6 +583,11 @@ class Mailbox {
 		}
 		return $string;
 	}
+
+    protected function decodeMessageIdList($string) {
+        preg_match_all('/(<[^@]+@[^>]+>)/', $string, $result, PREG_PATTERN_ORDER);
+        return $result[0];
+    }
 
 	/**
 	 * Converts a string from one encoding to another.

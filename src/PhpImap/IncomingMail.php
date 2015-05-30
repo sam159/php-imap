@@ -17,6 +17,8 @@ class IncomingMail {
 	public $toString;
 	public $cc = array();
 	public $replyTo = array();
+    public $inReplyTo;
+    public $references = array();
 
 	public $textPlain;
 	public $textHtml;
