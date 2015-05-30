@@ -513,7 +513,12 @@ class Mailbox {
 				$fileSysName = preg_replace('~[\\\\/]~', '', $mail->id . '_' . $attachmentId . '_' . preg_replace(array_keys($replace), $replace, $fileName));
 				$attachment->filePath = $this->attachmentsDir . DIRECTORY_SEPARATOR . $fileSysName;
 				file_put_contents($attachment->filePath, $data);
-			}
+			} else {
+                $fh = fopen('php://temp', 'wb+');
+                fwrite($fh, $data);
+                rewind($fh);
+                $attachment->tmpHandle = $fh;
+            }
 			$mail->addAttachment($attachment);
 		}
 		else {

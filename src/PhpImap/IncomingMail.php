@@ -60,4 +60,12 @@ class IncomingMailAttachment {
 	public $id;
 	public $name;
 	public $filePath;
+    public $tmpHandle = false;
+
+    function __destruct()
+    {
+        if ($this->tmpHandle) {
+            fclose($this->tmpHandle);
+        }
+    }
 }
