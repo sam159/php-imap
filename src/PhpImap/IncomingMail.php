@@ -7,6 +7,7 @@
 class IncomingMail {
 
 	public $id;
+	public $messageId;
 	public $date;
 	public $subject;
 
